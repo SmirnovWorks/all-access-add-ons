@@ -43,7 +43,6 @@ const useAddonView = (addon: AddOn): AddOnView => {
   });
 
   const select = () => {
-    console.log('select', storage)
     setStorage((addon) => ({ ...addon, isSelected: !addon.isSelected }));
   };
 
@@ -84,7 +83,7 @@ const AddOnViewComponent = (props: AddOnView) => {
       <label>
         select
         <input
-          onChange={alert}
+          onChange={props.select}
           checked={props.isSelected}
           type="checkbox"
         />
