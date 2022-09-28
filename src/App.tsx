@@ -21,12 +21,12 @@ export default function App() {
     <div className="App">
       <h1>Choose Add-on:</h1>
       {addonsView.map((addon) => {
-        // Syntax sugar, turning object into props, here we can filter props if nessesary
-        return <AddOnComponent {...addon} />;
+        // Syntax sugar, turning object into props, here we can filter props if necessary
+        return <AddOnComponent key={addon.uuid} {...addon} />;
       })}
       <hr />
       {selectedAddons.map((selectedAddon) => (
-        <b>{selectedAddon.name}, </b>
+        <b key={selectedAddon.uuid}>{selectedAddon.name}, </b>
       ))}
       <br />
       <button onClick={handleSubmit}>Submit</button>
