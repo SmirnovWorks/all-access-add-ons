@@ -42,8 +42,10 @@ const useAddonView = (addon: AddOn): AddOnView => {
     isSelected: false,
   });
 
-  const select = () =>
+  const select = () => {
+    console.log('select', storage)
     setStorage((addon) => ({ ...addon, isSelected: !addon.isSelected }));
+  };
 
   const setQuantity = (quantity: number) =>
     setStorage((addon) => ({ ...addon, quantity }));
@@ -72,6 +74,25 @@ const useAddons = (
   return [addonsView, selectedAddons, addonsPayload, addons];
 };
 
+const AddOnViewComponent = (props: AddOnView) => {
+  return (
+    <div style={{ border: "1px solid black" }}>
+      Addon: {props.name}
+      <br />
+      Price: {props.price}
+      <br />
+      <label>
+        select
+        <input
+          onChange={alert}
+          checked={props.isSelected}
+          type="checkbox"
+        />
+      </label>
+    </div>
+  );
+};
+
 export default function App() {
   const [addonsView, selectedAddons, addonsPayload] = useAddons(
     "location",
@@ -87,18 +108,7 @@ export default function App() {
       <h1>Hello CodeSandbox</h1>
       <h2>Start editing to see some magic happen!</h2>
       {addonsView.map((addon) => {
-        return (
-          <div style={{ border: "1px solid black" }}>
-            Addon: {addon.name}
-            <br />
-            Price: {addon.price}
-            <br />
-            <label>
-              select
-              <input onChange={addon.select} type="checkbox" />
-            </label>
-          </div>
-        );
+        return <AddOnViewComponent {...addon} />;
       })}
       <hr />
       {selectedAddons.map((selectedAddon) => (
