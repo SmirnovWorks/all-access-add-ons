@@ -25,6 +25,7 @@ export default function App() {
         return <AddOnComponent key={addon.uuid} {...addon} />;
       })}
       <hr />
+      Total:
       {selectedAddons.map((selectedAddon) => (
         <p key={selectedAddon.uuid}>{selectedAddon.total}, </p>
       ))}
