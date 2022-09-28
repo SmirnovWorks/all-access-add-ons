@@ -14,7 +14,7 @@ interface AddOnView extends AddOn {
   setQuantity(quantity: number): void;
 }
 
-interface AddOnPayload extends AddOn {
+interface AddOnPayload {
   uuid: string;
   quantity: number;
 }
@@ -23,7 +23,7 @@ const papiGetAddonRequest = (...args: any): AddOn[] => {
   return [
     { uuid: "1", name: "addon-1", price: "10$" },
     { uuid: "2", name: "addon-2", price: "20$" },
-    { uuid: "nina", name: "Ninin borsch", price: "priceless" }
+    { uuid: "nina", name: "Ninin borsch", price: "priceless" },
   ];
 };
 
@@ -31,11 +31,15 @@ const papiPostSubtotal = (args: AddOnPayload[]) => {
   alert("SUBMIT" + JSON.stringify(args, null, 2));
 };
 
+const getAddonPayload = (addon: AddOnView): AddOnPayload => {
+  return { uuid: addon.uuid, quantity: addon.quantity };
+};
+
 const useAddonView = (addon: AddOn): AddOnView => {
   const [storage, setStorage] = useState({
     ...addon,
     quantity: 1,
-    isSelected: false
+    isSelected: false,
   });
 
   const select = () =>
@@ -47,30 +51,35 @@ const useAddonView = (addon: AddOn): AddOnView => {
   return {
     ...storage,
     select,
-    setQuantity
+    setQuantity,
   };
 };
 
 const useAddons = (
   locationUuid: string,
   productType: string
-): [AddOnView[], AddOnPayload[], AddOn[]] => {
+): [AddOnView[], AddOnView[], AddOnPayload[], AddOn[]] => {
   const addons: AddOn[] = papiGetAddonRequest(locationUuid, productType);
 
   const addonsView: AddOnView[] = addons.map(useAddonView);
 
-  const selectedAddons: AddOnPayload[] = addonsView.filter(
+  const selectedAddons: AddOnView[] = addonsView.filter(
     (addon) => addon.isSelected
   );
 
-  return [addonsView, selectedAddons, addons];
+  const addonsPayload: AddOnPayload[] = selectedAddons.map(getAddonPayload);
+
+  return [addonsView, selectedAddons, addonsPayload, addons];
 };
 
 export default function App() {
-  const [addonsView, selectedAddons] = useAddons("location", "all_access");
+  const [addonsView, selectedAddons, addonsPayload] = useAddons(
+    "location",
+    "all_access"
+  );
 
   const handleSubmit = () => {
-    papiPostSubtotal(selectedAddons);
+    papiPostSubtotal(addonsPayload);
   };
 
   return (
