@@ -7,6 +7,8 @@ export interface AddOn {
 export interface AddOnView extends AddOn {
   isSelected: boolean;
   quantity: number;
+  // NOT FOR IMPLEMENTATION, just for demonstration of computed value
+  total: string;
   select(): void;
   setQuantity(quantity: number): void;
 }

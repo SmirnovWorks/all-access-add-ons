@@ -9,10 +9,10 @@ export const useAddOns = (
   // HTTP Request
   const addons: AddOn[] = papiGetAddonRequest(locationUuid, productType);
 
-  // ViewModel Collection
+  // create ViewModel collection
   const addonsView: AddOnView[] = addons.map(useAddonView);
 
-  // Computed Value
+  // computed collection
   const selectedAddons: AddOnView[] = addonsView.filter(
     (addon) => addon.isSelected
   );

@@ -26,7 +26,7 @@ export default function App() {
       })}
       <hr />
       {selectedAddons.map((selectedAddon) => (
-        <b key={selectedAddon.uuid}>{selectedAddon.name}, </b>
+        <p key={selectedAddon.uuid}>{selectedAddon.total}, </p>
       ))}
       <br />
       <button onClick={handleSubmit}>Submit</button>

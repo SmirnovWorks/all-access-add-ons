@@ -3,24 +3,28 @@ import { AddOn, AddOnView } from './addOnsTypes';
 
 export const useAddonView = (addon: AddOn): AddOnView => {
   // constructor
-  const [storage, setStorage] = useState({
-    ...addon,
+  const [state, setState] = useState({
     quantity: 1,
     isSelected: false,
   });
 
-  // private method
+  // computed property
+  const total = `${addon.name}: x${state.quantity} by ${addon.price} for 1 pc`;
+
+  // private methods
   const select = () => {
-    setStorage((addon) => ({ ...addon, isSelected: !addon.isSelected }));
+    setState((state) => ({ ...state, isSelected: !state.isSelected }));
   };
   
-  // private method
   const setQuantity = (quantity: number) =>
-    setStorage((addon) => ({ ...addon, quantity }));
+  setState((state) => ({ ...state, quantity }));
 
   return {
-    ...storage,
-    // make them public
+    // properties
+    ...addon,
+    ...state,
+    total,
+    // public methods
     select,
     setQuantity,
   };
